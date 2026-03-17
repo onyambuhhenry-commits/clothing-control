@@ -11,13 +11,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SignUpScreen(),
+      home: const AuthScreen(),
     );
   }
 }
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
+
+  @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  bool isLogin = true; // Toggle between login and sign up
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +32,9 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
-        title: const Text(
-          "Sign Up",
-          style: TextStyle(
+        title: Text(
+          isLogin ? "Login" : "Sign Up",
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -51,33 +58,38 @@ class SignUpScreen extends StatelessWidget {
 
                 const SizedBox(height: 10),
 
-                const Text(
-                  "Create Account",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                Text(
+                  isLogin ? "Welcome Back" : "Create Account",
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
                 const SizedBox(height: 20),
 
-                /// Full name
-                Row(
-                  children: const [
-                    Text(
-                      "Full Name",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                TextField(
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.person),
-                    hintText: "Enter your full name",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                if (!isLogin) ...[
+                  /// Full name (only for sign up)
+                  Row(
+                    children: const [
+                      Text(
+                        "Full Name",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.person),
+                      hintText: "Enter your full name",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
-                ),
 
-                const SizedBox(height: 15),
+                  const SizedBox(height: 15),
+                ],
 
                 /// Email
                 Row(
@@ -121,32 +133,34 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 15),
+                if (!isLogin) ...[
+                  const SizedBox(height: 15),
 
-                /// Confirm password
-                Row(
-                  children: const [
-                    Text(
-                      "Confirm Password",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: const Icon(Icons.visibility),
-                    hintText: "Confirm password",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  /// Confirm password (only for sign up)
+                  Row(
+                    children: const [
+                      Text(
+                        "Confirm Password",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: const Icon(Icons.visibility),
+                      hintText: "Confirm password",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
-                ),
+                ],
 
                 const SizedBox(height: 25),
 
-                /// Sign up button
+                /// Login/Sign up button
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -154,10 +168,10 @@ class SignUpScreen extends StatelessWidget {
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "Sign Up",
-                      style: TextStyle(
+                      isLogin ? "Login" : "Sign Up",
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -168,16 +182,27 @@ class SignUpScreen extends StatelessWidget {
 
                 const SizedBox(height: 15),
 
-                /// Already have an account
+                /// Toggle between login and sign up
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text("Already have an account? "),
+                  children: [
                     Text(
-                      "Login",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
+                      isLogin
+                          ? "Don't have an account? "
+                          : "Already have an account? ",
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isLogin = !isLogin;
+                        });
+                      },
+                      child: Text(
+                        isLogin ? "Sign Up" : "Login",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue,
+                        ),
                       ),
                     ),
                   ],

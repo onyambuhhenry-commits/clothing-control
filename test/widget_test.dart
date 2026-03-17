@@ -14,7 +14,7 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that the sign up page is shown.
-    expect(find.text('Sign Up'), findsOneWidget);
+    // Verify that the login page is shown by default.
+    expect(find.text('Login'), findsOneWidget);
   });
 }
