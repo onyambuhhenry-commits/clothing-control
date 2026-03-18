@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:flutter_application_1/controllers/logincontollers.dart';
 
-class Homescreen extends StatefulWidget {
-  const Homescreen({super.key});
+LoginController loginController = Get.put(LoginController());
+TextEditingController usernameController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<Homescreen> createState() => _HomescreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _HomescreenState extends State<Homescreen> {
+class _SignupScreenState extends State<SignupScreen> {
   int _selectedIndex = 0;
 
   @override
